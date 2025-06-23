@@ -9,7 +9,7 @@
             ref="accountFormRef"
         >
             <el-form-item label="帐号" prop="name">
-                <el-input type="password" autocomplete="off" v-model="account.name" />
+                <el-input type="text" autocomplete="off" v-model="account.name" />
             </el-form-item>
             <el-form-item label="密码" prop="password">
                 <el-input
@@ -30,8 +30,9 @@ import type { FormInstance, FormRules, ElForm } from 'element-plus';
 import { ElMessage } from 'element-plus';
 import { accountLogin } from '@/service/login/login';
 import useLoginStore from '@/store/login/login';
+import type { Iaccount } from '@/types/index';
 
-const account = reactive({
+const account = reactive<Iaccount>({
     name: '',
     password: ''
 });

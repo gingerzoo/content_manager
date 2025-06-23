@@ -1,5 +1,5 @@
 <template>
-    <div class="main"></div>
+    <div class="main">我是MAIN</div>
 </template>
 
 <script setup>

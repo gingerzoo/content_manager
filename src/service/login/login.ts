@@ -1,6 +1,7 @@
 import lxRequest from '..';
-export function accountLogin(account: any) {
-    lxRequest.request({
+import type { Iaccount } from '@/types/index';
+export function accountLogin(account: Iaccount) {
+    return lxRequest.request({
         method: 'post',
         url: '/login',
         data: account

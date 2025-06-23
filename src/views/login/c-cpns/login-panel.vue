@@ -40,7 +40,7 @@ import PaneAccount from './pane-account.vue';
 import PanePhone from './pane-phone.vue';
 const isRemPwd = ref(false);
 const loginMode = ref('account');
-const acountElRef = ref<InstanceType<typeof PaneAccount>>(null);
+const acountElRef = ref<InstanceType<typeof PaneAccount>>();
 
 function handleLoginBtnClick() {
     console.log('点我-------------', loginMode);
@@ -50,19 +50,6 @@ function handleLoginBtnClick() {
     } else {
         console.log('手机登录---------');
     }
-}
-
-interface RuleForm {
-    name: string;
-    region: string;
-    count: string;
-    date1: string;
-    date2: string;
-    delivery: boolean;
-    location: string;
-    type: string[];
-    resource: string;
-    desc: string;
 }
 </script>
 

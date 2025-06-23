@@ -27,7 +27,6 @@ class AppRequest {
         );
         this.instance.interceptors.response.use(
             (res) => {
-                console.log('全局响应成功的拦截', res);
                 return res.data;
             },
             (err) => {
