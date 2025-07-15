@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { firstMenu } from '@/utils/mapMenus';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: '/',
-            redirect: '/main'
+            redirect: '/login'
         },
         {
             path: '/main',
@@ -25,6 +26,27 @@ const router = createRouter({
     ]
 });
 
+const localRoutes = [
+    {
+        path: '/main/analysis/overview',
+        component: () => import('../views/main/analysis/overview/overvew.vue')
+    },
+    {
+        path: '/main/analysis/dashboard',
+        component: () => import('../views/main/analysis/dashboard/dashboard.vue')
+    },
+    {
+        path: '/main/system/role',
+        component: () => import('../views/main/system/role/role.vue')
+    },
+    {
+        path: '/main/system/user',
+        component: () => import('../views/main/system/user/user.vue')
+    }
+];
+
+// d动态添加路由
+
 // component选项对应react里面的element哟
 // 导航守卫！！！！
 // 路由首位
@@ -34,6 +56,13 @@ router.beforeEach((to, from) => {
     console.log('不对啊，没有token吗------------', token);
     if (to.path === '/main' && !token) {
         return '/login';
+    }
+
+    console.log('匹配到的第一个路由------', firstMenu);
+
+    // 如果是进入main
+    if (to.path === '/main') {
+        return firstMenu?.url;
     }
 });
 

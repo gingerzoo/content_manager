@@ -4,10 +4,10 @@ import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 interface lxRequestConfig extends AxiosRequestConfig {
     // 可以针对特定axios实例添加拦截器
     interceptors?: {
-        requestSuccessFn: (config: AxiosRequestConfig) => AxiosRequestConfig;
-        requestFailureFn: (err: any) => any;
-        responseSuccessFn: (res: AxiosResponse) => AxiosResponse;
-        responseFailureFn: (err: any) => any;
+        requestSuccessFn?: (config: AxiosRequestConfig) => AxiosRequestConfig;
+        requestFailureFn?: (err: any) => any;
+        responseSuccessFn?: (res: AxiosResponse) => AxiosResponse;
+        responseFailureFn?: (err: any) => any;
     };
 }
 class AppRequest {

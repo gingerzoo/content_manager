@@ -1,9 +1,28 @@
 <template>
     <div class="pane-phone">
-        <h2>pane-phone</h2>
+        <el-form label-width="60px" size="middle">
+            <el-form-item label="手机号">
+                <el-input />
+            </el-form-item>
+            <el-form-item label="验证码">
+                <div class="verify-code">
+                    <el-input />
+                    <el-button class="get-btn" type="primary">获取验证码</el-button>
+                </div>
+            </el-form-item>
+        </el-form>
     </div>
 </template>
 
 <script lang="ts" setup></script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.verify-code {
+    display: flex;
+    justify-content: space-between;
+
+    .get-btn {
+        margin-left: 10px;
+    }
+}
+</style>

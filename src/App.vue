@@ -1,13 +1,15 @@
 <template>
     <div class="app-wrapper">
-        <router-link to="/login">登录</router-link>
-
-        <!-- 占位组件 -->
-        <router-view></router-view>
+        <el-config-provider :locale="zhCn">
+            <!-- 占位组件 -->
+            <router-view></router-view>
+        </el-config-provider>
     </div>
 </template>
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterView } from 'vue-router';
+import { ElConfigProvider } from 'element-plus';
+import zhCn from 'element-plus/es/locale/lang/zh-cn';
 </script>
 
 <style scoped>

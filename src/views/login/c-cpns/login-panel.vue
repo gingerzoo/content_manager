@@ -33,20 +33,26 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { UserFilled, Iphone } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import PaneAccount from './pane-account.vue';
 import PanePhone from './pane-phone.vue';
-const isRemPwd = ref(false);
+const isRemPwd = ref<boolean>(JSON.parse(localStorage.getItem('isRemPwd')));
 const loginMode = ref('account');
 const acountElRef = ref<InstanceType<typeof PaneAccount>>();
+
+watch(isRemPwd, (newVal) => {
+    console.log('是否记住密码----------', newVal);
+    localStorage.setItem('isRemPwd', JSON.stringify(newVal));
+    // if()
+});
 
 function handleLoginBtnClick() {
     console.log('点我-------------', loginMode);
     if (loginMode.value === 'account') {
         console.log('帐号登录-------------------');
-        acountElRef.value?.loginAction();
+        acountElRef.value?.loginAction(isRemPwd.value);
     } else {
         console.log('手机登录---------');
     }
@@ -55,10 +61,6 @@ function handleLoginBtnClick() {
 
 <style lang="less" scoped>
 .login-panel {
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
-    // flex-direction: column;
     width: 380px;
 
     .title {
@@ -70,7 +72,6 @@ function handleLoginBtnClick() {
         .tab-item {
             display: flex;
             align-items: center;
-
             .tab-text {
                 margin-left: 3px;
             }

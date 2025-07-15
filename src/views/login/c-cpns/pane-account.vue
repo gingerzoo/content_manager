@@ -33,8 +33,8 @@ import useLoginStore from '@/store/login/login';
 import type { Iaccount } from '@/types/index';
 
 const account = reactive<Iaccount>({
-    name: '',
-    password: ''
+    name: localStorage.getItem('username') ?? '',
+    password: localStorage.getItem('userpwd') ?? ''
 });
 
 const accountFormRef = ref<InstanceType<typeof ElForm>>();
@@ -66,15 +66,23 @@ const accountRules: FormRules = {
         }
     ]
 };
-function loginAction(lal?: string) {
+function loginAction(isRemPwd: boolean) {
     console.log('pane-account login action function exection', account.name, account.password);
     accountFormRef.value?.validate((isValidated) => {
         console.log('校验是否通过-------', isValidated);
         if (isValidated) {
-            console.log('校验通过----------');
+            console.log('校验通过----------记住密码---------', isRemPwd);
 
             const { name, password } = account;
-            loginStore.loginAccountAction({ name, password });
+            loginStore.loginAccountAction({ name, password }).then(() => {
+                if (isRemPwd) {
+                    localStorage.setItem('username', name);
+                    localStorage.setItem('userpwd', password);
+                } else {
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('userpwd');
+                }
+            });
         } else {
             console.log('校验不通过');
             ElMessage({

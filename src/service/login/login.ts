@@ -7,3 +7,17 @@ export function accountLogin(account: Iaccount) {
         data: account
     });
 }
+
+export function getUserInfoById(id: number) {
+    return lxRequest.request({
+        method: 'get',
+        url: `/users/${id}`
+    });
+}
+
+export function getMenusByRoleId(id: number) {
+    return lxRequest.request({
+        method: 'get',
+        url: `/role/${id}/menu`
+    });
+}
