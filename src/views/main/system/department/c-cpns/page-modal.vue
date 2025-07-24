@@ -2,7 +2,7 @@
     <div class="user-modal">
         <el-dialog
             v-model="dialogVisible"
-            :title="isCreateNew ? '新建用户' : '编辑用户'"
+            :title="isCreateNew ? '新建部门' : '编部门'"
             width="30%"
             center
         >
@@ -92,14 +92,12 @@ let editUserInfo = ref();
 
 function handleModalToggle(isNew = true, userInfo?: any) {
     dialogVisible.value = !dialogVisible.value;
-    console.log('handleModalToggle------userInfo------', userInfo);
 
     if (!isNew) {
         // 编辑处理
         isCreateNew.value = false;
         editUserInfo.value = userInfo;
         for (const key in userInfo) {
-            if (!Object.keys(formData).includes(key)) continue;
             formData[key] = userInfo[key];
         }
     } else {
@@ -116,16 +114,8 @@ function handleConfirmBtnClick() {
     dialogVisible.value = false;
     console.log('确认的数据---------', formData);
     if (isCreateNew.value) {
-        console.log('应该要走这里-------');
         systemStore.createNewUserAction(formData);
     } else {
-        const myData = {
-            name: 'rebeccaaaa',
-            realname: 'zz',
-            cellphone: 12345678900,
-            roleId: 15397,
-            departmentId: 3
-        };
         systemStore.editUserInfoAction(editUserInfo.value.id, formData);
     }
 }

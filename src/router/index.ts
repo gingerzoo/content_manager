@@ -58,8 +58,6 @@ router.beforeEach((to, from) => {
         return '/login';
     }
 
-    console.log('匹配到的第一个路由------', firstMenu);
-
     // 如果是进入main
     if (to.path === '/main') {
         return firstMenu?.url;

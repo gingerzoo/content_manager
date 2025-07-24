@@ -16,6 +16,7 @@ export function getUserInfoById(id: number) {
 }
 
 export function getMenusByRoleId(id: number) {
+    console.log('传入的id--------', id);
     return lxRequest.request({
         method: 'get',
         url: `/role/${id}/menu`

@@ -5,23 +5,12 @@
             <el-button type="primary" @click="handleUserCreate">新建用户</el-button>
         </div>
         <div class="user-table">
-            <el-table :data="usersList" border style="width: 100%">
+            <el-table :data="pageList" border style="width: 100%">
                 <el-table-column type="selection" align="center" width="70" />
                 <el-table-column type="index" align="center" label="序号" width="70" />
-                <el-table-column prop="name" align="center" label="用户名" width="160px" />
-                <el-table-column prop="realname" align="center" label="真实姓名" width="160px" />
-                <el-table-column prop="cellphone" align="center" label="手机号码" width="150px" />
-                <el-table-column prop="enable" align="center" label="状态" width="70px">
-                    <template #default="scope">
-                        <el-button
-                            size="small"
-                            :type="scope.row.enable ? 'primary' : 'danger'"
-                            plain
-                        >
-                            {{ scope.row.enable ? '启用' : '禁用' }}
-                        </el-button>
-                    </template>
-                </el-table-column>
+                <el-table-column prop="name" align="center" label="部门名称" width="160px" />
+                <el-table-column prop="leader" align="center" label="部门领导" width="160px" />
+                <el-table-column prop="parentId" align="center" label="上级部门" width="150px" />
                 <el-table-column prop="createAt" align="center" label="创建时间">
                     <template #default="scope"> {{ formatUTC(scope.row.createAt) }} </template>
                 </el-table-column>
@@ -59,7 +48,7 @@
                 :page-sizes="[10, 20, 30, 40]"
                 size="small"
                 layout="sizes, prev, pager, next, jumper,total"
-                :total="usersTotalCount"
+                :total="pageTotalCount"
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
             />
@@ -80,11 +69,7 @@ const systemStore = useSystemStore();
 
 // 展示数据
 // 因为接口请求是异步的，所以要将usesList变为响应式的
-const { usersList, usersTotalCount } = storeToRefs(systemStore);
-// const usersList = systemStore.usersList;
-// const usersList = computed(() => {
-//     return systemStore.usersList;
-// });
+const { pageList, pageTotalCount } = storeToRefs(systemStore);
 
 const currentPage = ref(1);
 const pageSize = ref(10);
@@ -101,7 +86,6 @@ function handleCurrentChange() {
 }
 
 // 要暴露要暴露 否则上级组件拿不到这个方法
-
 function fetchPageListData(formData: any = {}) {
     const size = pageSize.value;
     const offset = (currentPage.value - 1) * pageSize.value;
@@ -111,12 +95,13 @@ function fetchPageListData(formData: any = {}) {
         ...formData
     };
     console.log('params--------', params);
-    systemStore.getUserListAction(params);
+
+    systemStore.getPageListAction('department', params);
 }
 
 function hanleDeleteBtnClick(userId) {
     console.log('点击删除按钮-------', userId);
-    systemStore.deleteUserAction(userId);
+    systemStore.deletePageAction('department', userId);
 }
 
 const emit = defineEmits(['create-user', 'edit-user']);
@@ -160,11 +145,13 @@ defineExpose({
         }
     }
 }
+
 .user-table {
     .el-table__cell {
         padding: 12px 0;
     }
 }
+
 .pagnination {
     display: flex;
     justify-content: center;

@@ -28,7 +28,6 @@ export function mapMenusToRoutes(userMenus: any[]) {
     for (const menu of userMenus) {
         for (const submenu of menu.children) {
             const route = localRoutes.find((item) => item.path === submenu.url);
-            console.log('匹配到的路由------', route);
             if (route) {
                 // 给route的外层菜单加一个重定向
                 if (!routes.find((item) => item.path === menu.url)) {

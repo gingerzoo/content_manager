@@ -5,17 +5,20 @@ import router from '@/router/index';
 import type { RouteRecordRaw } from 'vue-router';
 import { mapMenusToRoutes } from '@/utils/mapMenus';
 import useMainStore from '../main/main';
+import { mapUserMenusToPermissions } from '@/utils/map-menus';
 interface ILoginState {
     token: string;
     userInfo: any;
     userMenus: any;
+    permissions: string[];
 }
 
 const useLoginStore = defineStore('login', {
     state: (): ILoginState => ({
         token: localStorage.getItem('token') ?? '',
         userInfo: JSON.parse(localStorage.getItem('userInfo') ?? '{}'),
-        userMenus: JSON.parse(localStorage.getItem('userMenus') ?? '[]')
+        userMenus: JSON.parse(localStorage.getItem('userMenus') ?? '[]'),
+        permissions: []
     }),
     actions: {
         async loginAccountAction(account: Iaccount) {
@@ -34,11 +37,18 @@ const useLoginStore = defineStore('login', {
 
             // 根据角色请求用户的权限
             const userMenus = await getMenusByRoleId(this.userInfo.role.id);
+            console.log('根据角色请求用户的权限-----------');
             this.userMenus = userMenus.data;
+
+            // 获取登录用户的所有按钮权限
+            const permissions = mapUserMenusToPermissions(userMenus.data);
+            console.log('permissions--------', permissions);
+            this.permissions = permissions;
 
             //  进行用户信息本地缓存
             localStorage.setItem('userInfo', JSON.stringify(userDetail.data));
             localStorage.setItem('userMenus', JSON.stringify(userMenus.data));
+            // localStorage.setItem('')
 
             // d动态加载路由
             const routes = mapMenusToRoutes(userMenus.data);
@@ -59,6 +69,7 @@ const useLoginStore = defineStore('login', {
                 this.token = token;
                 this.userInfo = userInfo;
                 this.userMenus = userMenus;
+                this.permissions = mapUserMenusToPermissions(userMenus);
 
                 // 加载所有数据-------
                 const mainStore = useMainStore();

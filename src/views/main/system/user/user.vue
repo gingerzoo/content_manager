@@ -1,7 +1,11 @@
 <template>
     <div class="user">
         <user-search @filter-list="handleUserlistFilter" @reset-list="handleUserlistReset" />
-        <user-content ref="userContentRef" @create-user="handleNewUserCreate" />
+        <user-content
+            ref="userContentRef"
+            @create-user="handleNewUserCreate"
+            @edit-user="handleUserEdit"
+        />
         <user-modal ref="userModalRef" />
     </div>
 </template>
@@ -28,6 +32,10 @@ function handleUserlistReset() {
 
 function handleNewUserCreate() {
     userModalRef.value?.handleModalToggle();
+}
+
+function handleUserEdit(userInfo) {
+    userModalRef.value?.handleModalToggle(false, userInfo);
 }
 </script>
 
